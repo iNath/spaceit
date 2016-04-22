@@ -26,8 +26,8 @@ Physics.behavior('player-behavior', function( parent ){
                     case 39: // right
                         player.turn( 1 );
                         break;
-                    case 90: // z
-                        //player.shoot();
+                    case 32: // z
+                        player.shoot();
                         break;
                 }
                 return false;

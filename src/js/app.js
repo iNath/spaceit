@@ -37,6 +37,18 @@ function app(){
             cof: 0.99
         }));*/
 
+        var obstacle = Physics.body('obstacle', {
+            x: 200,
+            y: 400,
+            vertices : [
+                {x : 10, y: 10},
+                {x : 10, y: -10},
+                {x : -10, y: -10},
+                {x : -10, y: 10}
+            ]
+        });
+        world.add(obstacle);
+
         var player = Physics.body('player', {
             x: 500, // x-coordinate
             y: 30, // y-coordinate,

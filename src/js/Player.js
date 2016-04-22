@@ -5,7 +5,48 @@ Physics.body('player', 'circle', function( parent ){
     var deg = Math.PI/180;
     var gazAcc = 0.0005;
 
+    this.trace = function(){
+        window.setInterval(function(){
+            var self = this;
+            var world = this._world;
+            if(!world) return self;
+
+
+            var angle = this.state.angular.pos;
+            var cos = Math.cos( angle );
+            var sin = Math.sin( angle );
+            var r = this.geometry.radius + 5;
+
+            var missile = Physics.body('circle', {
+                x: this.state.pos.x,
+                y: this.state.pos.y,
+                radius: 2
+            });
+
+            world.add(missile);
+        }, 500);
+    };
+
     return {
+
+        trace: function(){
+            window.setInterval((function(){
+                var self = this;
+                var world = this._world;
+                if(!world) return self;
+
+                var missile = Physics.body('circle', {
+                    x: this.state.pos.x,
+                    y: this.state.pos.y,
+                    radius: 1
+                });
+
+                world.add(missile);
+            }).bind(this), 100);
+
+            return this;
+        },
+
         // we want to do some setup when the body is created
         // so we need to call the parent's init method
         // on "this"
@@ -15,6 +56,34 @@ Physics.body('player', 'circle', function( parent ){
             // because of the image i've chosen, the nose of the ship
             // will point in the same angle as the body's rotational position
             //this.view = shipImg;
+
+            this.trace();
+
+        },
+
+        shoot: function(){
+
+            var self = this;
+            var world = this._world;
+            if(!world) return self;
+
+
+            var angle = this.state.angular.pos;
+            var cos = Math.cos( angle );
+            var sin = Math.sin( angle );
+            var r = this.geometry.radius + 5;
+
+            var missile = Physics.body('circle', {
+                x: this.state.pos.x + r * cos,
+                y: this.state.pos.y + r * sin,
+                vx: (0.5 + this.state.vel.x) * cos,
+                vy: (0.5 + this.state.vel.y) * sin,
+                radius: 2
+            });
+
+            world.add(missile);
+
+            return self;
         },
 
         // this will turn the ship by changing the
